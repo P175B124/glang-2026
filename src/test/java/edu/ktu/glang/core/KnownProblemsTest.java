@@ -180,4 +180,54 @@ public class KnownProblemsTest {
         String out = Runner.runToString(src);
         assertEquals(expected, out);
     }
+
+    // ---- Control flow ----
+
+    @Disabled("Žinoma problema: tipų tikrinimas (T08)")
+    @Test
+    void execute_numberAsCondition_isRejected() {
+        String src = """
+            if (1) print(1);
+            """;
+
+        assertThrows(IllegalArgumentException.class, () -> Runner.runToString(src));
+    }
+    @Disabled("Žinoma problema: blokai { }")
+    @Test
+    void execute_blockInIf_runsAllStatements() {
+        String src = """
+            if (true) {
+                print(1);
+                print(2);
+            }
+            """;
+
+        String expected = """
+            1
+            2
+            """;
+
+        String out = Runner.runToString(src);
+        assertEquals(expected, out);
+    }
+    @Disabled("Žinoma problema: while ciklas")
+    @Test
+    void execute_whileLoop_repeatsBody() {
+        String src = """
+            let i = 0;
+            while (i < 3) {
+                print(i);
+                i = i + 1;
+            }
+            """;
+
+        String expected = """
+            0
+            1
+            2
+            """;
+
+        String out = Runner.runToString(src);
+        assertEquals(expected, out);
+    }
 }

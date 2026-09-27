@@ -1,0 +1,6 @@
+// GLang step-5
+let x = 5;
+if (x > 3) print(1); else print(0);
+
+let big = x > 10;
+if (big) print(100); else print(0);

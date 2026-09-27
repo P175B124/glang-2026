@@ -6,11 +6,13 @@ statement
     : letDecl ';'
     | assignment ';'
     | printStmt ';'
+    | ifStmt                    // NOTE - no semicolon
     ;
 
 letDecl    : LET ID '=' expr ;
 assignment : ID '=' expr ;
 printStmt  : PRINT '(' expr ')' ;
+ifStmt     : IF '(' expr ')' statement (ELSE statement)? ; // NOTE - single statement, no blocks
 
 expr
     : INT                       #intExpr
@@ -26,6 +28,8 @@ relationOp : '==' | '!=' | '<' | '>' ;
 // ---- Lexer ----
 LET   : 'let' ;
 PRINT : 'print' ;
+IF    : 'if' ;
+ELSE  : 'else' ;
 BOOL  : 'true' | 'false' ;
 
 ID  : [a-zA-Z_][a-zA-Z_0-9]* ; // NOTE - must be after keywords
