@@ -60,6 +60,11 @@ public class GLangVisitor extends GLangBaseVisitor<Object> {
     }
 
     @Override
+    public Object visitBoolExpr(GLangParser.BoolExprContext ctx) {
+        return Boolean.parseBoolean(ctx.BOOL().getText());
+    }
+
+    @Override
     public Object visitIdExpr(GLangParser.IdExprContext ctx) {
         String name = ctx.ID().getText();
         return symbolTable.get(name); // NOTE - we assume the variable was declared
@@ -73,6 +78,19 @@ public class GLangVisitor extends GLangBaseVisitor<Object> {
             case "+" -> left + right;
             case "-" -> left - right;
             default -> throw new IllegalStateException("Unknown operator: " + ctx.addOp().getText());
+        };
+    }
+
+    @Override
+    public Object visitRelationExpr(GLangParser.RelationExprContext ctx) {
+        Object left = visit(ctx.expr(0));
+        Object right = visit(ctx.expr(1));
+        return switch (ctx.relationOp().getText()) {
+            case "==" -> left.equals(right);
+            case "!=" -> !left.equals(right);
+            case "<" -> (Integer) left < (Integer) right;  // NOTE - we assume both operands are numbers
+            case ">" -> (Integer) left > (Integer) right;
+            default -> throw new IllegalStateException("Unknown operator: " + ctx.relationOp().getText());
         };
     }
 }
