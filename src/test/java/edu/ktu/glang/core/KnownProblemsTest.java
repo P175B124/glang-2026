@@ -108,4 +108,76 @@ public class KnownProblemsTest {
 
         assertThrows(IllegalArgumentException.class, () -> Runner.runToString(src));
     }
+
+    // ---- Types (semantic analysis - T08) ----
+
+    @Disabled("Žinoma problema: tipų tikrinimas (T08)")
+    @Test
+    void execute_numberPlusBoolean_isRejected() {
+        String src = """
+            print(1 + true);
+            """;
+
+        assertThrows(IllegalArgumentException.class, () -> Runner.runToString(src));
+    }
+    @Disabled("Žinoma problema: tipų tikrinimas (T08)")
+    @Test
+    void execute_chainedComparison_isRejected() {
+        String src = """
+            print(1 < 2 < 3);
+            """;
+
+        assertThrows(IllegalArgumentException.class, () -> Runner.runToString(src));
+    }
+
+    // ---- Booleans and strings ----
+
+    @Disabled("Žinoma problema: loginės operacijos")
+    @Test
+    void execute_logicalOperators_printsResult() {
+        String src = """
+            print(true && false);
+            print(true || false);
+            print(!true);
+            """;
+
+        String expected = """
+            false
+            true
+            false
+            """;
+
+        String out = Runner.runToString(src);
+        assertEquals(expected, out);
+    }
+    @Disabled("Žinoma problema: <= ir >=")
+    @Test
+    void execute_lessOrEqualAndGreaterOrEqual_printsResult() {
+        String src = """
+            print(2 <= 2);
+            print(1 >= 2);
+            """;
+
+        String expected = """
+            true
+            false
+            """;
+
+        String out = Runner.runToString(src);
+        assertEquals(expected, out);
+    }
+    @Disabled("Žinoma problema: eilutės (string) tipas")
+    @Test
+    void execute_stringLiteral_printsText() {
+        String src = """
+            print("labas");
+            """;
+
+        String expected = """
+            labas
+            """;
+
+        String out = Runner.runToString(src);
+        assertEquals(expected, out);
+    }
 }
