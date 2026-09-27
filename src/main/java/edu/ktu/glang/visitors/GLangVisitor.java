@@ -4,10 +4,13 @@ import edu.ktu.glang.syntax.GLangBaseVisitor;
 import edu.ktu.glang.syntax.GLangParser;
 
 import java.io.PrintStream;
+import java.util.HashMap;
+import java.util.Map;
 
 public class GLangVisitor extends GLangBaseVisitor<Object> {
 
     private final PrintStream out;
+    private final Map<String, Object> symbolTable = new HashMap<>();
 
     public GLangVisitor(PrintStream out) {
         this.out = out;
@@ -29,6 +32,22 @@ public class GLangVisitor extends GLangBaseVisitor<Object> {
     }
 
     @Override
+    public Object visitLetDecl(GLangParser.LetDeclContext ctx) {
+        String name = ctx.ID().getText();
+        Object value = visit(ctx.expr());
+        symbolTable.put(name, value); // NOTE - we allow re-declaring for now
+        return null;
+    }
+
+    @Override
+    public Object visitAssignment(GLangParser.AssignmentContext ctx) {
+        String name = ctx.ID().getText();
+        Object value = visit(ctx.expr());
+        symbolTable.put(name, value); // NOTE - we assume the variable was declared
+        return null;
+    }
+
+    @Override
     public Object visitPrintStmt(GLangParser.PrintStmtContext ctx) {
         Object value = visit(ctx.expr());
         out.println(value);
@@ -38,6 +57,12 @@ public class GLangVisitor extends GLangBaseVisitor<Object> {
     @Override
     public Object visitIntExpr(GLangParser.IntExprContext ctx) {
         return Integer.parseInt(ctx.INT().getText());
+    }
+
+    @Override
+    public Object visitIdExpr(GLangParser.IdExprContext ctx) {
+        String name = ctx.ID().getText();
+        return symbolTable.get(name); // NOTE - we assume the variable was declared
     }
 
     @Override
