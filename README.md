@@ -1,1 +1,53 @@
 # GLang 2026
+
+Mokomoji programavimo kalba, kuriama P175B124 „Programavimo kalbų teorija“ paskaitose:
+
+- **T04** – gramatika, lankytojas (visitor), interpretatorius;
+- **T08** – semantinė analizė ir kompiliavimas.
+
+Kalba sąmoningai nebaigta: daug dalykų dar neveikia. Jie surašyti kaip
+[žinomos problemos](#žinomos-problemos) ir užfiksuoti testais.
+
+## Įrankiai
+
+- Java 21
+- Maven 3.9+
+- ANTLR 4.13.2
+- IntelliJ IDEA su ANTLR v4 įskiepiu
+
+## Paleidimas
+
+    mvn clean package
+    java -jar target/glang-2026-1.0.jar samples/if.glang
+
+IntelliJ: *All Tests*, *generate-visitor*, *glang-2026 [clean,package]*,
+*Run current .glang file* (paleidžia šiuo metu atidarytą `.glang` failą).
+
+## Žingsniai
+
+Kiekvienas žingsnis – du commit'ai: *Grammar and tests* (nauji testai raudoni)
+ir *Implementation* (visi testai žali). Žyma rodo į veikiančią būseną:
+
+    git checkout step-3
+
+| Žyma     | Kas pridėta                                                      |
+|----------|------------------------------------------------------------------|
+| `step-0` | `print(42);` – įrankių grandinės patikrinimas                    |
+| `step-1` | Viena operacija: `print(2 + 3);`                                 |
+| `step-2` | Kelios operacijos: `print(1 + 2 + 3);`, alternatyvų žymės (`#addExpr`) |
+| `step-3` | Kintamieji: `let`, priskyrimas, simbolių lentelė                 |
+| `step-4` | Loginės reikšmės `true`/`false`, palyginimai `==` `!=` `<` `>`   |
+| `step-5` | `if` / `else` (vienas sakinys, delegavimas `IfVisitor`)          |
+
+## Žinomos problemos
+
+Visos jos yra [KnownProblemsTest](src/test/java/edu/ktu/glang/core/KnownProblemsTest.java)
+kaip `@Disabled` testai. Nuimkite `@Disabled` ir pasiekite, kad testas praeitų.
+
+- daugyba, dalyba ir operacijų prioritetas (`1 + 2 * 3` turi būti `7`);
+- neigiami skaičiai, skliaustai;
+- loginės operacijos `&&`, `||`, `!`, palyginimai `<=`, `>=`;
+- eilutės (string) tipas;
+- blokai `{ }`, `while` ciklas;
+- nedeklaruoti ir pakartotinai deklaruoti kintamieji, tipų klaidos
+  (`1 + true`, `if (1)`) – sprendžiama semantine analize (**T08**).
