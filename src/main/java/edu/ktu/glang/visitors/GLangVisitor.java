@@ -36,12 +36,14 @@ public class GLangVisitor extends GLangBaseVisitor<Object> {
     }
 
     @Override
-    public Object visitExpr(GLangParser.ExprContext ctx) {
-        int left = Integer.parseInt(ctx.INT(0).getText());
-        if (ctx.addOp() == null) {
-            return left; // NOTE - just a number
-        }
-        int right = Integer.parseInt(ctx.INT(1).getText());
+    public Object visitIntExpr(GLangParser.IntExprContext ctx) {
+        return Integer.parseInt(ctx.INT().getText());
+    }
+
+    @Override
+    public Object visitAddExpr(GLangParser.AddExprContext ctx) {
+        int left = (Integer) visit(ctx.expr(0));  // NOTE - we assume both operands are numbers
+        int right = (Integer) visit(ctx.expr(1));
         return switch (ctx.addOp().getText()) {
             case "+" -> left + right;
             case "-" -> left - right;
