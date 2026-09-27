@@ -1,0 +1,6 @@
+// GLang step-0
+print(1);
+print(2); // comment
+/* multi-line
+   comment */
+print(3);
