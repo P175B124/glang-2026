@@ -77,4 +77,35 @@ public class KnownProblemsTest {
         String out = Runner.runToString(src);
         assertEquals(expected, out);
     }
+
+    // ---- Variables (semantic analysis - T08) ----
+
+    @Disabled("Žinoma problema: nedeklaruotas kintamasis (T08)")
+    @Test
+    void execute_undeclaredVariableUse_isRejected() {
+        String src = """
+            print(y);
+            """;
+
+        assertThrows(IllegalArgumentException.class, () -> Runner.runToString(src));
+    }
+    @Disabled("Žinoma problema: priskyrimas nedeklaruotam kintamajam (T08)")
+    @Test
+    void execute_assignmentToUndeclaredVariable_isRejected() {
+        String src = """
+            y = 1;
+            """;
+
+        assertThrows(IllegalArgumentException.class, () -> Runner.runToString(src));
+    }
+    @Disabled("Žinoma problema: pakartotinis deklaravimas (T08)")
+    @Test
+    void execute_redeclaration_isRejected() {
+        String src = """
+            let x = 1;
+            let x = 2;
+            """;
+
+        assertThrows(IllegalArgumentException.class, () -> Runner.runToString(src));
+    }
 }

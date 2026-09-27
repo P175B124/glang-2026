@@ -1,0 +1,6 @@
+// GLang step-3
+let x = 1 + 2;
+print(x);
+print(x + 10);
+x = x - 1;
+print(x);
