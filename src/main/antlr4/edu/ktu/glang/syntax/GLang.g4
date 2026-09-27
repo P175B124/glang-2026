@@ -6,7 +6,14 @@ statement
     : printStmt ';'
     ;
 
-printStmt : PRINT '(' INT ')' ;
+printStmt : PRINT '(' expr ')' ;
+
+expr
+    : INT addOp INT
+    | INT
+    ;
+
+addOp : '+' | '-' ;
 
 // ---- Lexer ----
 PRINT : 'print' ;
