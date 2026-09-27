@@ -9,8 +9,8 @@ statement
 printStmt : PRINT '(' expr ')' ;
 
 expr
-    : INT addOp INT
-    | INT
+    : INT                       #intExpr
+    | expr addOp expr           #addExpr
     ;
 
 addOp : '+' | '-' ;

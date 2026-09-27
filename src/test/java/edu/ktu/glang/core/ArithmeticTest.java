@@ -46,4 +46,46 @@ public class ArithmeticTest {
         String out = Runner.runToString(src);
         assertEquals(expected, out);
     }
+
+    @Test
+    void execute_severalAdditions_printsSum() {
+        String src = """
+            print(1 + 2 + 3);
+            """;
+
+        String expected = """
+            6
+            """;
+
+        String out = Runner.runToString(src);
+        assertEquals(expected, out);
+    }
+
+    @Test
+    void execute_mixedAdditionAndSubtraction_printsResult() {
+        String src = """
+            print(1 + 2 - 3);
+            """;
+
+        String expected = """
+            0
+            """;
+
+        String out = Runner.runToString(src);
+        assertEquals(expected, out);
+    }
+
+    @Test
+    void execute_severalSubtractions_evaluatesLeftToRight() {
+        String src = """
+            print(10 - 3 - 2);
+            """;
+
+        String expected = """
+            5
+            """;
+
+        String out = Runner.runToString(src);
+        assertEquals(expected, out);
+    }
 }
