@@ -30,8 +30,22 @@ public class GLangVisitor extends GLangBaseVisitor<Object> {
 
     @Override
     public Object visitPrintStmt(GLangParser.PrintStmtContext ctx) {
-        String text = ctx.INT().getText();
-        out.println(text);
+        Object value = visit(ctx.expr());
+        out.println(value);
         return null;
+    }
+
+    @Override
+    public Object visitExpr(GLangParser.ExprContext ctx) {
+        int left = Integer.parseInt(ctx.INT(0).getText());
+        if (ctx.addOp() == null) {
+            return left; // NOTE - just a number
+        }
+        int right = Integer.parseInt(ctx.INT(1).getText());
+        return switch (ctx.addOp().getText()) {
+            case "+" -> left + right;
+            case "-" -> left - right;
+            default -> throw new IllegalStateException("Unknown operator: " + ctx.addOp().getText());
+        };
     }
 }
