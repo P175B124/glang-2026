@@ -1,0 +1,14 @@
+// GLang step-8 - each block { } is a new scope (stack of scopes)
+let a = 1;
+if (a > 0) {
+    let b = 2;
+    if (b > 1) {
+        let c = 3;
+        print(a + b + c);   // a, b, c visible
+    }
+    print(a + b);           // c is gone
+} else {
+    let b = 20;             // other block - same name allowed
+    print(b);
+}
+print(a);                   // b is gone

@@ -10,6 +10,7 @@ import java.util.Map;
 public class InterpreterVisitor extends GLangBaseVisitor<Object> {
 
     private final PrintStream out;
+    // NOTE - one map is enough: DeclarationChecker checked scopes, so a name is used only where it is visible
     private final Map<String, Object> symbolTable = new HashMap<>();
 
     private final IfVisitor ifVisitor; // delegate for if/else

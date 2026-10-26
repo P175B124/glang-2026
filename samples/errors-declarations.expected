@@ -1,4 +1,5 @@
 Semantic errors:
 line 3:6 Variable 'y' is not declared.
 line 4:0 Variable 'z' is not declared.
-line 5:4 Variable 'x' is already declared.
+line 8:6 Variable 'inner' is not declared.
+line 9:4 Variable 'x' is already declared.
