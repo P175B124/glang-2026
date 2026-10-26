@@ -13,15 +13,19 @@ Kalba sąmoningai nebaigta: daug dalykų dar neveikia. Jie surašyti kaip
 - Java 21
 - Maven 3.9+
 - ANTLR 4.13.2
+- LLVM 15+ (`lli`) – tik sugeneruotam `.ll` failui paleisti
 - IntelliJ IDEA su ANTLR v4 įskiepiu
 
 ## Paleidimas
 
     mvn clean package
-    java -jar target/glang-2026-1.0.jar samples/if.glang
+    java -jar target/glang-2026-1.0.jar samples/if.glang                         # run
+    java -jar target/glang-2026-1.0.jar -c samples/print.glang target/print.ll   # compile -> LLVM IR
+    lli target/print.ll                                                          # run with the LLVM interpreter
 
 IntelliJ: *All Tests*, *generate-visitor*, *glang-2026 [clean,package]*,
-*Run current .glang file* (paleidžia šiuo metu atidarytą `.glang` failą).
+*Run current .glang file* (paleidžia šiuo metu atidarytą `.glang` failą),
+*Compile print.glang to LLVM IR* (sukuria `target/print.ll`), *Run print.ll with lli* (sukompiliuoja ir paleidžia su `lli`).
 
 ## Žingsniai
 
@@ -42,6 +46,7 @@ ir *Implementation* (visi testai žali). Žyma rodo į veikiančią būseną:
 | `step-7` | Semantinė analizė, 1 etapas `DeclarationChecker`: paskelbimas prieš naudojimą, tik vieną kartą |
 | `step-8` | Galiojimo sritys: simbolių lentelė – galiojimo sričių dėklas (`SymbolTable`) |
 | `step-9` | Semantinė analizė, 2 etapas `TypeChecker`: lankytojas grąžina tipą (`int`, `bool`), ne reikšmę |
+| `step-10c` | LLVM IR generavimas (tik `print(<skaičius>)`): `glang -c` sukuria `.ll` failą, paleidžiama su `lli` |
 
 ## Žinomos problemos
 
