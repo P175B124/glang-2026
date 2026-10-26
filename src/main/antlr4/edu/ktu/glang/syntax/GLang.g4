@@ -12,7 +12,9 @@ statement
 letDecl    : LET ID '=' expr ;
 assignment : ID '=' expr ;
 printStmt  : PRINT '(' expr ')' ;
-ifStmt     : IF '(' expr ')' statement (ELSE statement)? ; // NOTE - single statement, no blocks
+ifStmt     : IF '(' expr ')' block (ELSE block)? ; // NOTE - braces required
+
+block      : '{' statement* '}' ;   // NOTE - later reused by while, for, functions
 
 expr
     : INT                       #intExpr

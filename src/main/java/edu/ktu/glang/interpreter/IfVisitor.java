@@ -18,9 +18,9 @@ public class IfVisitor extends GLangBaseVisitor<Object> {
     public Object visitIfStmt(GLangParser.IfStmtContext ctx) {
         boolean condition = (Boolean) root.visit(ctx.expr()); // NOTE - we assume condition is boolean
         if (condition) {
-            root.visit(ctx.statement(0));                     // NOTE - statement 0
+            root.visit(ctx.block(0));                         // NOTE - then block
         } else if (ctx.ELSE() != null) {
-            root.visit(ctx.statement(1));                     // NOTE - statement 1
+            root.visit(ctx.block(1));                         // NOTE - else block
         }
         return null;
     }
