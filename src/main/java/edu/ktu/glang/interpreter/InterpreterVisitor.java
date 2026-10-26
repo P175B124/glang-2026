@@ -82,7 +82,7 @@ public class InterpreterVisitor extends GLangBaseVisitor<Object> {
 
     @Override
     public Object visitAddExpr(GLangParser.AddExprContext ctx) {
-        int left = (Integer) visit(ctx.expr(0));  // NOTE - we assume both operands are numbers
+        int left = (Integer) visit(ctx.expr(0));  // NOTE - TypeChecker checked both operands are int
         int right = (Integer) visit(ctx.expr(1));
         return switch (ctx.addOp().getText()) {
             case "+" -> left + right;
@@ -98,7 +98,7 @@ public class InterpreterVisitor extends GLangBaseVisitor<Object> {
         return switch (ctx.relationOp().getText()) {
             case "==" -> left.equals(right);
             case "!=" -> !left.equals(right);
-            case "<" -> (Integer) left < (Integer) right;  // NOTE - we assume both operands are numbers
+            case "<" -> (Integer) left < (Integer) right;  // NOTE - TypeChecker checked both operands are int
             case ">" -> (Integer) left > (Integer) right;
             default -> throw new IllegalStateException("Unknown operator: " + ctx.relationOp().getText());
         };

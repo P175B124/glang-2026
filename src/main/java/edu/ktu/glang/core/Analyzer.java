@@ -2,6 +2,7 @@ package edu.ktu.glang.core;
 
 import edu.ktu.glang.semantics.Checker;
 import edu.ktu.glang.semantics.DeclarationChecker;
+import edu.ktu.glang.semantics.TypeChecker;
 import edu.ktu.glang.syntax.GLangLexer;
 import edu.ktu.glang.syntax.GLangParser;
 import edu.ktu.glang.syntax.SyntaxErrorCollector;
@@ -40,8 +41,10 @@ public final class Analyzer {
 
         // Semantic analysis: nothing is run if there are errors
         check(new DeclarationChecker(), tree);
+        TypeChecker types = new TypeChecker();
+        check(types, tree);
 
-        return new AnalyzedProgram(tree);
+        return new AnalyzedProgram(tree, types);
     }
 
     /** Run one semantic pass; the next pass runs only if this one found no errors. */

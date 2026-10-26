@@ -38,6 +38,10 @@ ir *Implementation* (visi testai žali). Žyma rodo į veikiančią būseną:
 | `step-3` | Kintamieji: `let`, priskyrimas, simbolių lentelė                 |
 | `step-4` | Loginės reikšmės `true`/`false`, palyginimai `==` `!=` `<` `>`   |
 | `step-5` | `if` / `else` (vienas sakinys, delegavimas `IfVisitor`)          |
+| `step-6` | Blokas `{ }` – privalomas `if` šakose (dar be galiojimo sričių) |
+| `step-7` | Semantinė analizė, 1 etapas `DeclarationChecker`: paskelbimas prieš naudojimą, tik vieną kartą |
+| `step-8` | Galiojimo sritys: simbolių lentelė – galiojimo sričių dėklas (`SymbolTable`) |
+| `step-9` | Semantinė analizė, 2 etapas `TypeChecker`: lankytojas grąžina tipą (`int`, `bool`), ne reikšmę |
 
 ## Žinomos problemos
 

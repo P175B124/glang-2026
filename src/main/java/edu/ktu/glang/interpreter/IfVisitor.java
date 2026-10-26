@@ -16,7 +16,7 @@ public class IfVisitor extends GLangBaseVisitor<Object> {
 
     @Override
     public Object visitIfStmt(GLangParser.IfStmtContext ctx) {
-        boolean condition = (Boolean) root.visit(ctx.expr()); // NOTE - we assume condition is boolean
+        boolean condition = (Boolean) root.visit(ctx.expr()); // NOTE - TypeChecker checked condition is bool
         if (condition) {
             root.visit(ctx.block(0));                         // NOTE - then block
         } else if (ctx.ELSE() != null) {

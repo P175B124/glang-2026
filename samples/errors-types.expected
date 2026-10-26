@@ -1,0 +1,5 @@
+Semantic errors:
+line 3:0 Cannot assign bool to variable 'x' of type int.
+line 4:4 Condition must be bool, got int.
+line 5:12 Operator '+' expects int operands, got int and bool.
+line 7:12 Operator '<' expects int operands, got bool and int.
