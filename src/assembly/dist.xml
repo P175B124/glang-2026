@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Distribution package: glang-<version>.zip / .tar.gz, see src/dist/README.md -->
+<assembly xmlns="http://maven.apache.org/ASSEMBLY/2.2.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/ASSEMBLY/2.2.0 https://maven.apache.org/xsd/assembly-2.2.0.xsd">
+    <id>dist</id>
+    <formats>
+        <format>zip</format>
+        <format>tar.gz</format>
+    </formats>
+    <baseDirectory>glang-${project.version}</baseDirectory>
+
+    <files>
+        <!-- runnable jar with all dependencies, built by the 'jar' execution -->
+        <file>
+            <source>${project.build.directory}/glang.jar</source>
+            <outputDirectory>lib</outputDirectory>
+        </file>
+        <!-- user README: ${project.version} replaced -->
+        <file>
+            <source>src/dist/README.md</source>
+            <outputDirectory>.</outputDirectory>
+            <filtered>true</filtered>
+        </file>
+        <file>
+            <source>LICENSE</source>
+            <outputDirectory>.</outputDirectory>
+        </file>
+    </files>
+
+    <fileSets>
+        <!-- launchers: executable, correct line endings for each OS -->
+        <fileSet>
+            <directory>src/dist/bin</directory>
+            <outputDirectory>bin</outputDirectory>
+            <includes><include>glang</include></includes>
+            <fileMode>0755</fileMode>
+            <lineEnding>unix</lineEnding>
+        </fileSet>
+        <fileSet>
+            <directory>src/dist/bin</directory>
+            <outputDirectory>bin</outputDirectory>
+            <includes><include>*.bat</include></includes>
+            <lineEnding>dos</lineEnding>
+        </fileSet>
+
+        <!-- example programs with expected output -->
+        <fileSet>
+            <directory>samples</directory>
+            <outputDirectory>examples</outputDirectory>
+            <includes>
+                <include>*.glang</include>
+                <include>*.expected</include>
+            </includes>
+            <lineEnding>unix</lineEnding>
+        </fileSet>
+        <fileSet>
+            <directory>src/dist/examples</directory>
+            <outputDirectory>examples</outputDirectory>
+            <includes><include>*.sh</include></includes>
+            <fileMode>0755</fileMode>
+            <lineEnding>unix</lineEnding>
+        </fileSet>
+        <fileSet>
+            <directory>src/dist/examples</directory>
+            <outputDirectory>examples</outputDirectory>
+            <includes>
+                <include>*.bat</include>
+                <include>*.ps1</include>
+            </includes>
+            <lineEnding>dos</lineEnding>
+        </fileSet>
+    </fileSets>
+</assembly>

@@ -18,10 +18,35 @@ Kalba sąmoningai nebaigta: daug dalykų dar neveikia. Jie surašyti kaip
 ## Paleidimas
 
     mvn clean package
-    java -jar target/glang-2026-1.0.jar samples/if.glang
+    java -jar target/glang.jar samples/if.glang
 
 IntelliJ: *All Tests*, *generate-visitor*, *glang-2026 [clean,package]*,
 *Run current .glang file* (paleidžia šiuo metu atidarytą `.glang` failą).
+
+## Diegimo paketas
+
+`mvn clean package` iš šaltinio kodo sukuria ir diegimo paketą (angl. *distribution*):
+
+    target/glang-1.0.0.zip
+    target/glang-1.0.0.tar.gz
+
+    glang-1.0.0/
+    ├── bin/glang, bin/glang.bat     paleidimo skriptai
+    ├── lib/glang.jar                visos priklausomybės viename jar
+    ├── examples/                    samples/*.glang + *.expected, run-all.sh / run-all.bat
+    └── README.md                    naudotojo instrukcija (src/dist/README.md)
+
+Paketo turinį aprašo [src/assembly/dist.xml](src/assembly/dist.xml), skriptai – [src/dist](src/dist).
+Patikrinimas švarioje vietoje:
+
+    cd /tmp && unzip ~/glang-2026/target/glang-1.0.0.zip
+    glang-1.0.0/examples/run-all.sh
+
+„GitHub Release“ sukuriamas automatiškai ([release.yml](.github/workflows/release.yml)),
+kai į GitHub įkeliama versijos žymė:
+
+    git tag v1.0.0
+    git push origin v1.0.0
 
 ## Žingsniai
 
@@ -42,6 +67,7 @@ ir *Implementation* (visi testai žali). Žyma rodo į veikiančią būseną:
 | `step-7` | Semantinė analizė, 1 etapas `DeclarationChecker`: paskelbimas prieš naudojimą, tik vieną kartą |
 | `step-8` | Galiojimo sritys: simbolių lentelė – galiojimo sričių dėklas (`SymbolTable`) |
 | `step-9` | Semantinė analizė, 2 etapas `TypeChecker`: lankytojas grąžina tipą (`int`, `bool`), ne reikšmę |
+| `step-100a` | Diegimo paketas: `bin/`, `lib/`, `examples/`, `README.md` viename archyve (100 – iki jo bus dar daug žingsnių) |
 
 ## Žinomos problemos
 
