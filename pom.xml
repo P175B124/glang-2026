@@ -17,6 +17,7 @@
         <project.resources.encoding>UTF-8</project.resources.encoding>
 
         <antlr4.version>4.13.2</antlr4.version>
+        <asm.version>9.8</asm.version>
         <junit.jupiter.version>5.13.4</junit.jupiter.version>
     </properties>
 
@@ -120,6 +121,13 @@
             <groupId>org.antlr</groupId>
             <artifactId>antlr4-runtime</artifactId>
             <version>${antlr4.version}</version>
+        </dependency>
+
+        <!-- JVM bytecode generation -->
+        <dependency>
+            <groupId>org.ow2.asm</groupId>
+            <artifactId>asm</artifactId>
+            <version>${asm.version}</version>
         </dependency>
 
         <!-- JUnit 5 (Jupiter) -->
