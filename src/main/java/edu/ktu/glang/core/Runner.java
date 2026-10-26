@@ -1,6 +1,6 @@
 package edu.ktu.glang.core;
 
-import edu.ktu.glang.interpreter.InterpreterBackend;
+import edu.ktu.glang.compiler.JvmBackend;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 
@@ -10,7 +10,7 @@ import java.nio.charset.StandardCharsets;
 
 public final class Runner {
 
-    private static final Backend BACKEND = new InterpreterBackend(); // NOTE - the only place that chooses the backend
+    private static final Backend BACKEND = new JvmBackend(); // NOTE - the only place that chooses the backend
 
     private Runner() {}
 

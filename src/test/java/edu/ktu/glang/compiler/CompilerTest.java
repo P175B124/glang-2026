@@ -15,7 +15,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-/** Compiler-specific tests: programs are run with JvmBackend directly. */
+/**
+ * Compiler-specific tests. All other tests (PrintStatementTest, IfStatementTest, ...)
+ * also test the compiler: Runner compiles the program and runs the bytecode.
+ */
 public class CompilerTest {
     @Test
     void compile_print_printsNumber() {
