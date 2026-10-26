@@ -1,0 +1,11 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Compile current .glang file" type="Application" factoryName="Application">
+    <option name="MAIN_CLASS_NAME" value="edu.ktu.glang.app.Main" />
+    <module name="glang-2026" />
+    <option name="PROGRAM_PARAMETERS" value="-c $FilePath$ target/$FileNameWithoutExtension$.jar" />
+    <option name="WORKING_DIRECTORY" value="$MODULE_WORKING_DIR$" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

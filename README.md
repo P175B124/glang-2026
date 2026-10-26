@@ -18,10 +18,14 @@ Kalba sąmoningai nebaigta: daug dalykų dar neveikia. Jie surašyti kaip
 ## Paleidimas
 
     mvn clean package
-    java -jar target/glang-2026-1.0.jar samples/if.glang
+    java -jar target/glang-2026-1.0.jar samples/if.glang                 # run
+    java -jar target/glang-2026-1.0.jar -c samples/if.glang              # compile -> if.jar
+    java -jar if.jar
+    javap -c -cp if.jar Program                                          # generated JVM bytecode
 
 IntelliJ: *All Tests*, *generate-visitor*, *glang-2026 [clean,package]*,
-*Run current .glang file* (paleidžia šiuo metu atidarytą `.glang` failą).
+*Run current .glang file* (paleidžia šiuo metu atidarytą `.glang` failą),
+*Compile current .glang file* (sukuria `target/<failas>.jar`).
 
 ## Žingsniai
 
