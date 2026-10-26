@@ -1,4 +1,4 @@
-package edu.ktu.glang.visitors;
+package edu.ktu.glang.interpreter;
 
 import edu.ktu.glang.syntax.GLangBaseVisitor;
 import edu.ktu.glang.syntax.GLangParser;
@@ -8,9 +8,9 @@ import edu.ktu.glang.syntax.GLangParser;
  * and statement execution back to the root interpreter.
  */
 public class IfVisitor extends GLangBaseVisitor<Object> {
-    private final GLangVisitor root; // we reuse root's symbol table, output, and helpers
+    private final InterpreterVisitor root; // we reuse root's symbol table, output, and helpers
 
-    public IfVisitor(GLangVisitor root) {
+    public IfVisitor(InterpreterVisitor root) {
         this.root = root;
     }
 

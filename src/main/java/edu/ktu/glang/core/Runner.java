@@ -1,55 +1,36 @@
 package edu.ktu.glang.core;
 
-import edu.ktu.glang.syntax.GLangLexer;
-import edu.ktu.glang.syntax.GLangParser;
-import edu.ktu.glang.syntax.SyntaxErrorCollector;
-import edu.ktu.glang.visitors.GLangVisitor;
+import edu.ktu.glang.interpreter.InterpreterBackend;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
-import org.antlr.v4.runtime.CommonTokenStream;
-import org.antlr.v4.runtime.tree.ParseTree;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
-import java.util.List;
+import java.nio.charset.StandardCharsets;
 
 public final class Runner {
 
+    private static final Backend BACKEND = new InterpreterBackend(); // NOTE - the only place that chooses the backend
+
     private Runner() {}
 
-    /** Parse + execute from a CharStream (used by Main). */
+    /** Analyze + run from a CharStream (used by Main). */
     public static void run(CharStream input, PrintStream out) {
-        GLangLexer lexer = new GLangLexer(input);
-        CommonTokenStream tokens = new CommonTokenStream(lexer);
-        GLangParser parser = new GLangParser(tokens);
-
-        // Collect lexer and parser errors instead of printing to stderr
-        SyntaxErrorCollector err = new SyntaxErrorCollector();
-        lexer.removeErrorListeners();
-        lexer.addErrorListener(err);
-        parser.removeErrorListeners();
-        parser.addErrorListener(err);
-
-        ParseTree tree = parser.program();
-
-        List<String> errors = err.getErrors();
-        if (!errors.isEmpty()) {
-            throw new IllegalArgumentException("Syntax errors: " + errors);
-        }
-
-        new GLangVisitor(out).visit(tree);
+        BACKEND.run(Analyzer.analyze(input), out);
     }
 
-    /** Parse + execute from a raw source string. */
+    /** Analyze + run from a raw source string. */
     public static void run(String source, PrintStream out) {
         run(CharStreams.fromString(source), out);
     }
 
     /** Convenience for tests: returns captured stdout as a String. */
     public static String runToString(String source) {
-        ByteArrayOutputStream buf = new ByteArrayOutputStream();
-        PrintStream ps = new PrintStream(buf);
-        run(source, ps);
-        return buf.toString().replace("\r\n", "\n"); // normalize newlines on Windows
+        ByteArrayOutputStream printed = new ByteArrayOutputStream();
+        PrintStream out = new PrintStream(printed, true, StandardCharsets.UTF_8);
+        run(source, out);
+
+        String output = printed.toString(StandardCharsets.UTF_8);
+        return output.replace("\r\n", "\n"); // NOTE - println writes \r\n on Windows, \n on Linux / macOS
     }
 }

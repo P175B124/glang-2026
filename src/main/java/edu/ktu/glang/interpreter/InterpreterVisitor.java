@@ -1,4 +1,4 @@
-package edu.ktu.glang.visitors;
+package edu.ktu.glang.interpreter;
 
 import edu.ktu.glang.syntax.GLangBaseVisitor;
 import edu.ktu.glang.syntax.GLangParser;
@@ -7,14 +7,14 @@ import java.io.PrintStream;
 import java.util.HashMap;
 import java.util.Map;
 
-public class GLangVisitor extends GLangBaseVisitor<Object> {
+public class InterpreterVisitor extends GLangBaseVisitor<Object> {
 
     private final PrintStream out;
     private final Map<String, Object> symbolTable = new HashMap<>();
 
     private final IfVisitor ifVisitor; // delegate for if/else
 
-    public GLangVisitor(PrintStream out) {
+    public InterpreterVisitor(PrintStream out) {
         this.out = out;
 
         this.ifVisitor = new IfVisitor(this);
