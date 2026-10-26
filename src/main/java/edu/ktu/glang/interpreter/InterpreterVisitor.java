@@ -39,7 +39,7 @@ public class InterpreterVisitor extends GLangBaseVisitor<Object> {
     public Object visitLetDecl(GLangParser.LetDeclContext ctx) {
         String name = ctx.ID().getText();
         Object value = visit(ctx.expr());
-        symbolTable.put(name, value); // NOTE - we allow re-declaring for now
+        symbolTable.put(name, value); // NOTE - DeclarationChecker rejects re-declaring
         return null;
     }
 
@@ -47,7 +47,7 @@ public class InterpreterVisitor extends GLangBaseVisitor<Object> {
     public Object visitAssignment(GLangParser.AssignmentContext ctx) {
         String name = ctx.ID().getText();
         Object value = visit(ctx.expr());
-        symbolTable.put(name, value); // NOTE - we assume the variable was declared
+        symbolTable.put(name, value); // NOTE - DeclarationChecker checked it was declared
         return null;
     }
 
@@ -76,7 +76,7 @@ public class InterpreterVisitor extends GLangBaseVisitor<Object> {
     @Override
     public Object visitIdExpr(GLangParser.IdExprContext ctx) {
         String name = ctx.ID().getText();
-        return symbolTable.get(name); // NOTE - we assume the variable was declared
+        return symbolTable.get(name); // NOTE - DeclarationChecker checked it was declared
     }
 
     @Override

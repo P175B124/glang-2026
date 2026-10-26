@@ -1,0 +1,5 @@
+// GLang step-7 - DeclarationChecker finds all errors before running
+let x = 1;
+print(y);
+z = 2;
+let x = 2;

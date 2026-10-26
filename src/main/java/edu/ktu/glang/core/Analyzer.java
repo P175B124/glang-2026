@@ -1,10 +1,13 @@
 package edu.ktu.glang.core;
 
+import edu.ktu.glang.semantics.Checker;
+import edu.ktu.glang.semantics.DeclarationChecker;
 import edu.ktu.glang.syntax.GLangLexer;
 import edu.ktu.glang.syntax.GLangParser;
 import edu.ktu.glang.syntax.SyntaxErrorCollector;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.tree.ParseTree;
 
 import java.util.List;
 
@@ -35,6 +38,17 @@ public final class Analyzer {
             throw new IllegalArgumentException("Syntax errors:\n" + String.join("\n", errors));
         }
 
+        // Semantic analysis: nothing is run if there are errors
+        check(new DeclarationChecker(), tree);
+
         return new AnalyzedProgram(tree);
+    }
+
+    /** Run one semantic pass; the next pass runs only if this one found no errors. */
+    private static void check(Checker<?> checker, ParseTree tree) {
+        checker.visit(tree);
+        if (!checker.getErrors().isEmpty()) {
+            throw new IllegalArgumentException("Semantic errors:\n" + String.join("\n", checker.getErrors()));
+        }
     }
 }
