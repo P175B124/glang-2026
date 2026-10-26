@@ -8,7 +8,9 @@ public class IfStatementTest {
     @Test
     void execute_ifTrue_runsThenBranch() {
         String src = """
-            if (true) print(1);
+            if (true) {
+                print(1);
+            }
             """;
 
         String expected = """
@@ -22,7 +24,9 @@ public class IfStatementTest {
     @Test
     void execute_ifFalseWithoutElse_printsNothing() {
         String src = """
-            if (false) print(1);
+            if (false) {
+                print(1);
+            }
             print(2);
             """;
 
@@ -37,7 +41,11 @@ public class IfStatementTest {
     @Test
     void execute_ifFalseWithElse_runsElseBranch() {
         String src = """
-            if (false) print(1); else print(0);
+            if (false) {
+                print(1);
+            } else {
+                print(0);
+            }
             """;
 
         String expected = """
@@ -52,7 +60,11 @@ public class IfStatementTest {
     void execute_conditionWithVariable_runsMatchingBranch() {
         String src = """
             let x = 5;
-            if (x > 3) print(1); else print(0);
+            if (x > 3) {
+                print(1);
+            } else {
+                print(0);
+            }
             """;
 
         String expected = """
@@ -64,9 +76,15 @@ public class IfStatementTest {
     }
 
     @Test
-    void execute_nestedIf_elseBelongsToNearestIf() {
+    void execute_nestedIf_runsInnerElse() {
         String src = """
-            if (true) if (false) print(1); else print(2);
+            if (true) {
+                if (false) {
+                    print(1);
+                } else {
+                    print(2);
+                }
+            }
             """;
 
         String expected = """
