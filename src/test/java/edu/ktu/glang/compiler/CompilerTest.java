@@ -12,6 +12,8 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /** Compiler-specific tests: programs are run with JvmBackend directly. */
 public class CompilerTest {
@@ -26,6 +28,101 @@ public class CompilerTest {
             """;
 
         assertEquals(expected, runCompiled(src));
+    }
+
+    @Test
+    void compile_numbersOfDifferentSize_printsAll() throws Exception {
+        // NOTE - JVM has different instructions: iconst (-1..5), bipush (byte), sipush (short), ldc (other)
+        String src = """
+            print(0);
+            print(5);
+            print(100);
+            print(1000);
+            print(100000);
+            """;
+
+        String expected = """
+            0
+            5
+            100
+            1000
+            100000
+            """;
+
+        assertEquals(expected, runCompiled(src));
+    }
+
+    @Test
+    void compile_booleans_printsTrueFalse() throws Exception {
+        // NOTE - JVM has no boolean on the stack: true/false are int 1/0, the type decides println(Z)
+        String src = """
+            let ok = true;
+            print(ok);
+            print(false);
+            """;
+
+        String expected = """
+            true
+            false
+            """;
+
+        assertEquals(expected, runCompiled(src));
+    }
+
+    @Test
+    void compile_comparisons_printBooleans() throws Exception {
+        // NOTE - a comparison is a jump (IF_ICMPxx) that pushes 1 or 0
+        String src = """
+            print(1 < 2);
+            print(1 > 2);
+            print(2 == 2);
+            print(2 != 2);
+            print(true == true);
+            """;
+
+        String expected = """
+            true
+            false
+            true
+            false
+            true
+            """;
+
+        assertEquals(expected, runCompiled(src));
+    }
+
+    @Test
+    void compile_ifElse_jumpsToTheRightBlock() throws Exception {
+        // NOTE - if is a jump (IFEQ) over the then block, else block ends with GOTO
+        String src = """
+            let x = 5;
+            if (x > 3) {
+                print(1);
+            } else {
+                print(0);
+            }
+            if (x < 3) {
+                print(2);
+            }
+            print(3);
+            """;
+
+        String expected = """
+            1
+            3
+            """;
+
+        assertEquals(expected, runCompiled(src));
+    }
+
+    @Test
+    void compile_semanticError_isRejected() {
+        String src = """
+            print(1 + true);
+            """;
+
+        var e = assertThrows(IllegalArgumentException.class, () -> GLangCompiler.compile(src));
+        assertTrue(e.getMessage().contains("Operator '+' expects int operands"), e.getMessage());
     }
 
     @Test
