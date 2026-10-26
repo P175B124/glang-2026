@@ -25,7 +25,7 @@ public final class GLangCompiler {
 
     /** Generate bytecode of the class for an analyzed program. */
     public static byte[] compile(AnalyzedProgram program) {
-        CompilerVisitor compiler = new CompilerVisitor();
+        CompilerVisitor compiler = new CompilerVisitor(program.types());
         compiler.visit(program.tree());
         return compiler.toByteArray();
     }
